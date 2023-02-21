@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>todo</title>
+</head>
+<body>
+    <label>todo : <input id="todo_text" type="text"></label>
+    <button id="add_button">追加</button>
+     <ul id="todo_list"></ul>
+
+     <script>
+        // 普通バージョン
+        const todoList = document.querySelector('#todo_list');
+        const addButton = document.querySelector('#add_button');
+        const todoText = document.querySelector('#todo_text');
+        addButton.addEventListener('click', () => {
+            if(!todoText.value) return;
+            addTodo();
+            todoText.value = '';
+        });
+        function addTodo() {
+            const li = document.createElement('li');
+            li.textContent = todoText.value;
+            const deleteButton = createDeleteButton();
+            li.append(deleteButton);
+            todoList.append(li);
+        }
+        function createDeleteButton() {
+            const deleteButton = document.createElement('button');
+            deleteButton.setAttribute('class', 'complete');
+            deleteButton.textContent = '完了';
+            deleteButton.addEventListener('click', ({ target }) => {
+                target.parentNode.remove();
+            })
+            return deleteButton;
+        }
+
+        // クロージャを意識したバージョン
+        // const addButton = document.querySelector('#add_button');
+        // const deleteButton = document.querySelector('.delete_button');
+        // const todoList = document.querySelector('#todo_list');
+        // const todoText = document.querySelector('#todo_text');
+        // function createTodoFunc() {
+        //     const todos = [];
+        //     function addTodo(todo) {
+        //         todos.push(todo);
+        //         rendering();
+        //     }
+        //     function rendering() {
+        //         while(todoList.firstChild) {
+        //             todoList.removeChild(todoList.firstChild);
+        //         }
+        //         const wrapedLiTodos = wrapLi();
+        //         wrapedLiTodos.forEach((todo) => {
+        //             todoList.append(todo);
+        //         });
+        //     }
+        //     function wrapLi() {
+        //         let todoId = 0;
+        //         return todos.map((todo) => {
+        //             const li = document.createElement('li');
+        //             li.textContent = todo;
+        //             li.setAttribute('data-id', todoId++);
+        //             const button = document.createElement('button');
+        //             button.textContent = '完了';
+        //             button.addEventListener('click', ({ target }) => {
+        //                 const id = target.parentNode.dataset.id;
+        //                 todos.splice(id, 1);
+        //                 rendering();
+        //             });
+        //             li.append(button);
+        //             return li;
+        //         });
+        //     }
+        //     rendering()
+        //     return addTodo;
+        // }
+        // const addTodo = createTodoFunc();
+        // addButton.addEventListener('click', () => {
+        //     if(!todoText.value) return;
+        //     addTodo(todoText.value);
+        //     todoText.value = '';
+        // });
+     </script>
+</body>
+</html>
